@@ -13,7 +13,7 @@ INCDIR:=$(SRCDIR)/inc
 SRCEXT:=c
 INCEXT:=h
 SOURCES:=$(shell find $(SRCDIR) -type f -name '*.$(SRCEXT)')
-INCLUDES:=$(shell fine $(INCDIR) -type f -name '*.$(INCEXT)')
+INCLUDES:=$(shell find $(INCDIR) -type f -name '*.$(INCEXT)')
 
 # Outputs
 BINDIR:=./bin
