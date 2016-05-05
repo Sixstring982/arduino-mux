@@ -1,0 +1,7 @@
+# Emacs backup stuff
+[#]*[#]
+*~
+
+# Outputs
+bin/
+build/
