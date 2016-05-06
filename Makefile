@@ -22,6 +22,12 @@ OBJEXT:=o
 OBJECTS:=$(subst .$(SRCEXT),.$(OBJEXT),$(subst $(SRCDIR),$(BUILDDIR),$(SOURCES)))
 EXE:=$(BINDIR)/$(PROJNAME)-$(VERSION)
 
+ifdef DEBUG
+CCFLAGS:= $(CCFLAGS) -g
+else
+CCFLAGS:= $(CCFLAGS) -O99
+endif
+
 all:	$(BUILDDIR) $(BINDIR) $(EXE)
 
 $(BUILDDIR) $(BINDIR):

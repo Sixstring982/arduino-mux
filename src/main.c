@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <unistd.h>
 #include "./inc/Arguments.h"
 #include "./inc/arduino-serial-lib.h"
 
@@ -57,11 +58,21 @@ static bool process_next_input(Arguments* args) {
 int main(int argc, char** argv) {
   Arguments args;
   bool running = true;
-  if(!arguments_init(&args, argc, argv)) {
+  u32 i;
+  if (!arguments_init(&args, argc, argv)) {
     return 1;
   }
 
   arguments_print_status(&args, stdout);
+
+  printf("Sleeping 5 seconds for serial warmup");
+  fflush(stdout);
+  for (i = 0; i < 5; i++) {
+    sleep(1);
+    printf(".");
+    fflush(stdout);
+  }
+  printf("\nGood to go.\n");
 
   while(running) {
     if (!process_next_input(&args)) {

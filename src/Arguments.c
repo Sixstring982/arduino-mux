@@ -1,5 +1,6 @@
 #include "./inc/Arguments.h"
 
+#include <stdlib.h>
 #include <ctype.h>
 #include <string.h>
 
@@ -89,7 +90,7 @@ static bool parse_config_file(Arguments* args,
       case ARDUINOS:
         if (!open_arduino(args, line)) {
           fprintf(stderr,
-                  "%s:%u:%ld error: "
+                  "%s:%u:%td error: "
                   "Arduino at port <%s> could not be opened.\n",
                   configFilename, line_num,
                   line_start - line, line_start);
@@ -98,7 +99,7 @@ static bool parse_config_file(Arguments* args,
         break;
       default:
         fprintf(stderr,
-                "%s:%u%ld error: "
+                "%s:%u%td error: "
                 "Unspecified config file section. Expected \n"
                 "section header before line: <%s>.\n",
                   configFilename, line_num,
@@ -116,7 +117,7 @@ static bool parse_config_file(Arguments* args,
 bool arguments_init(Arguments* args, int argc, char** argv) {
   const char* configFilename = NULL;
   args->arduinoCount = 0;
-  args->arduinoOutputs = NULL;
+  args->arduinoOutputs = malloc(sizeof(int) * 255);
 
   if (argc < 2) {
     arguments_usage(argv[0]);
@@ -138,4 +139,5 @@ void arguments_destroy(Arguments* args) {
   for (i = 0; i < args->arduinoCount; i++) {
     serialport_close(args->arduinoOutputs[i]);
   }
+  free(args->arduinoOutputs);
 }
