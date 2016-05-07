@@ -10,6 +10,7 @@ static bool send_arduino_packet(int fd, u8 size) {
   int readC;
   u32 i;
   uint8_t out_byte;
+  printf("Sending %u bytes to arduino at fd=%d...\n", size, fd);
   for (i = 0; i < size; i++) {
     readC = getchar();
     if (readC == EOF) {
@@ -18,8 +19,15 @@ static bool send_arduino_packet(int fd, u8 size) {
     }
 
     out_byte = (uint8_t)readC;
+    printf("[0x%02x]", out_byte);
+    if ((i + 1) % 8 == 0) {
+      printf("\n");
+      serialport_flush(fd);
+    }
     serialport_writebyte(fd, out_byte);
   }
+  printf("\n");
+  serialport_flush(fd);
   return true;
 }
 

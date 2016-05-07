@@ -145,6 +145,7 @@ int serialport_read_until(int fd, char* buf, char until, int buf_max, int timeou
 //
 int serialport_flush(int fd)
 {
-    sleep(2); //required to make flush work, for some reason
+    usleep( 100 * 1000 );  // wait 100 msec
+    // sleep(2); //required to make flush work, for some reason
     return tcflush(fd, TCIOFLUSH);
 }
